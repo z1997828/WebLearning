@@ -43,7 +43,12 @@ if (name == null)
 	out.print(set);
 	%>
 	<hr>
-	<form>
+	<script type="text/javascript">
+		funciton checkForm(){
+			return true;
+		}
+	</script>
+	<form onsubmit="return checkForm();">
 		START:<input type="number" name="start">
 		<input type="number" name="rows">
 		x
