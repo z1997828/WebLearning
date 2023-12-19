@@ -3,6 +3,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ page import="tw.Andy.classes.*" %>
+<%
+	Member member = (Member)session.getAttribute("member");
+	if (member == null){
+		response.sendRedirect("Login.jsp");
+		
+		return;
+		}else{
+			
+		}
+	
+%>
 <!DOCTYPE html>
 <html>
 <sql:setDataSource
@@ -24,12 +35,17 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		
 	</head>
 	<body>
 		<h1>MAIN</h1>
 		<hr />
 		<a href="addNew.jsp">AddNew</a>
+		<a href="logout.jsp">Logout</a>
+		<hr />
+		<h1>Welcone ! <%= member.getCname() %></h1>
+		<hr />
 	<table border="1" width="100%">
 		<tr>
 			<th>id</th>

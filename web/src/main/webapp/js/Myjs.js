@@ -1,0 +1,46 @@
+window.onload = function(){
+	var start = document.getElementById("start");
+	var mesgDiv = document.getElementById("mesgDiv");
+	var mesg = document.getElementById("mesg");
+	var send = document.getElementById("send");
+	var log = document.getElementById("log");
+	
+	var webSocket;
+	
+	start.style.display = "block";
+	mesgDiv.style.display = "none";
+	
+	start.addEventListener("click",function(){
+		console.log("connect...");
+		connect();
+	});
+	
+	send.addEventListener("click",function(){
+		var message = {
+			message : mesg.value
+		};
+		webSocket.send(JSON.stringify(message));
+	})
+	function connect(){
+			webSocket = new webSocket("ws://10.0.104.198:8080/web/MyServer");
+			
+			webSocket.onerror = function(event){console.log("ERROR!");}
+			webSocket.onopen = function(event){
+				console.log("open ok!");
+				start.style.display = "none";
+				mesgDiv.style.display = "block";	
+			}
+			webSocket.onclose = function(event){
+				console.log("close ok!");
+				start.style.display = "block";
+				mesgDiv.style.display = "none";	
+			}
+			//接收
+			webSocket.onmessage = function(event){
+				var mesgObj = JSON.stringify("mesgObj");
+				log.innerHTML += mesgObj.message + "<br />"
+			}
+		
+			
+	};
+}

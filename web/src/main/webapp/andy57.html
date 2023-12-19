@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>AJAX</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<script>
+			var page = 1;
+			
+			function changePage(p){
+				$.ajax({
+					url:"andy58.jsp?page=" + p,
+					type:"get",
+					success:doSuccess,
+					error:doError	
+				});
+			}
+			
+			function doSuccess(json){
+				console.log("success");
+				
+				var jsonObj = $.parseJSON(json);
+				page = jsonObj.page;
+				
+				if(jsonObj.error == 1) page = 1;
+				if(jsonObj.error == 2) page = 10;
+				$("#page").html(page);
+				
+				if(jsonObj.error != 0) return;
+				
+				$('#table').empty();
+				$(jsonObj.data).each(function(i,row){
+				//	console.log(i + ":" + row.name + ":" + row.age + ":" + row.tel);
+					$('#table').append(
+						'<tr>' +
+							'<td>' + row.name + '</td>' +
+							'<td>' + row.tel + '</td>' +
+							'<td>' + row.addr + '</td>' +
+						'</tr>'	
+					);
+				});
+					
+			}
+			
+			function doError(){
+				console.log("error");
+			}
+			
+			function prev(){
+				changePage(--page);
+			}
+			
+			function next(){
+				changePage(++page);
+			}
+			
+			changePage(page);
+		</script>
+		Page:<span id="page"></span> <br />
+		<input type="button" value="上一頁" onclick="prev()"/> | 
+		<input type="button" value="下一頁" onclick="next()"/>
+		<hr/>
+		<table id="table" border="1" width="100%">
+			
+		</table>
+		
+		
+		
+	</body>
+</html>
